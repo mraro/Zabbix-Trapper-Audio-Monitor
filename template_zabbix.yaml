@@ -1,0 +1,51 @@
+zabbix_export:
+  version: '6.4'
+  template_groups:
+    - uuid: 5a01a60ac90845beaa813fe360d89e9d
+      name: 'Templates NR'
+  templates:
+    - uuid: 35303a7f02fb4ccb8667fc4656158d4f
+      template: 'Analise de audio'
+      name: 'Analise de audio'
+      groups:
+        - name: 'Templates NR'
+      items:
+        - uuid: 05de5d78311d46af854b56cb3424bab7
+          name: 'Audio Reciver (graph)'
+          type: TRAP
+          key: app.lista_valores
+          delay: '0'
+          history: 30d
+          value_type: FLOAT
+          triggers:
+            - uuid: 8ff3f45fcbae44448f5a8dd997035781
+              expression: 'last(/Analise de audio/app.lista_valores)=0'
+              name: 'Sem audio'
+              priority: AVERAGE
+              manual_close: 'YES'
+        - uuid: 9eecfb7fbacb4e57bcbf97e955313aa1
+          name: 'Monitoramento do software renomeado'
+          key: 'proc.num["VericarAudio.exe"]'
+        - uuid: b7b9f69a493a4c66af34b5226c8fc5f1
+          name: 'Monitoramento do software "Zabbix Audio Capture v2.1.5 64x 86x"'
+          key: 'proc.num["Zabbix Audio Capture v2.1.5 64x 86x.exe"]'
+        - uuid: 9ca279e5cc4341228a0ce335ac7041db
+          name: 'Monitoramento do software'
+          key: 'proc.num["Zabbix Audio Capture v2.1.5.exe"]'
+  triggers:
+    - uuid: 03b8028e87a041d9ae3128e88efc9a27
+      expression: 'last(/Analise de audio/proc.num["Zabbix Audio Capture v2.1.5.exe"])=0 and last(/Analise de audio/proc.num["VericarAudio.exe"])=0 and last(/Analise de audio/proc.num["Zabbix Audio Capture v2.1.5 64x 86x.exe"])=0'
+      name: 'Programa de monitoramento fechado!'
+      priority: HIGH
+      manual_close: 'YES'
+  graphs:
+    - uuid: 88d44b95e21c42f0a483beff1f98731e
+      name: 'Audio View'
+      ymin_type_1: FIXED
+      graph_items:
+        - drawtype: FILLED_REGION
+          color: 1A7C11
+          calc_fnc: ALL
+          item:
+            host: 'Analise de audio'
+            key: app.lista_valores
