@@ -1,0 +1,14 @@
+altgraph==0.17.4
+importlib-metadata==6.7.0
+numpy==1.21.6
+packaging==24.0
+pefile==2023.2.7
+py-zabbix==1.1.7
+PyAudio==0.2.13
+pyinstaller==5.13.2
+pyinstaller-hooks-contrib==2024.5
+PySide2==5.15.2.1
+pywin32-ctypes==0.2.2
+shiboken2==5.15.2.1
+typing_extensions==4.7.1
+zipp==3.15.0
